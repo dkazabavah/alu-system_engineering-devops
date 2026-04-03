@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Configures nginx redirection
+
+apt-get update -y
+apt-get install nginx -y
+
+cat > /etc/nginx/sites-available/default << 'EOF'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    location / {
+        root /var/www/html;
+        index index.html;
+    }
+}
+EOF
+
+echo "Holberton School for the win!" > /var/www/html/index.html
+
+service nginx restart
